@@ -205,12 +205,11 @@ usuarios          clientes
 ## 👥 Equipe de Desenvolvimento
 
 | Nome | GitHub |
-|---|---|
-| Marcelo Alexandre | - |[https://github.com/MarceloMarcks] |
+|------|--------|
+| Marcelo Alexandre | [MarceloMarcks](https://github.com/MarceloMarcks) |
 | Michael Douglas | [@michaeldouglasx](https://github.com/michaeldouglasx) |
-| Pedro Silva | - | [https://github.com/Pedro-Silva-Carvalho] | 
-| Suel Albuquerque | - | [@suel777](https://github.com/suel777)|
-
+| Pedro Silva | [Pedro-Silva-Carvalho](https://github.com/Pedro-Silva-Carvalho) |
+| Suel Albuquerque | [@suel777](https://github.com/suel777) |
 ---
 
 ## 📚 Documentação
