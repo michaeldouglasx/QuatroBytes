@@ -206,10 +206,15 @@ usuarios          clientes
 
 | Nome | GitHub |
 |---|---|
-| Marcelo Alexandre | - |
+| Marcelo Alexandre | - |https://github.com/MarceloMarcks
 | Michael Douglas | [@michaeldouglasx](https://github.com/michaeldouglasx) |
+<<<<<<< HEAD
 | Pedro Silva | https://github.com/Pedro-Silva-Carvalho |
 | Suel Albuquerque | - |
+=======
+| Pedro Silva | - | https://github.com/Pedro-Silva-Carvalho | 
+| Suel Albuquerque | - | [@suel777](https://github.com/suel777)
+>>>>>>> 2e4b4a1 (Descrição das alterações)
 
 ---
 
