@@ -8,7 +8,7 @@
 
 | Tecnologia | Versão | Função |
 |---|---|---|
-| Java | 17+ | Linguagem principal |
+| Java | 21+ | Linguagem principal |
 | Spring Boot | 3+ | Framework backend |
 | Spring Data JPA | - | Integração com banco de dados (ORM) |
 | Hibernate | - | Implementação JPA |
@@ -88,7 +88,7 @@ src/main/resources/
 
 ### Pré-requisitos
 
-- Java 17 ou superior instalado
+- Java 21 ou superior instalado
 - MySQL 8 instalado e rodando
 - Maven instalado
 
@@ -219,4 +219,4 @@ A documentação completa de arquitetura e modelagem (requisitos, casos de uso, 
 
 ---
 
-*Projeto desenvolvido para a disciplina de Arquitetura e Modelagem de Sistemas — SENAC DF*
+*Projeto desenvolvido para a disciplina de Java - SENAC DF*
