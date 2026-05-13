@@ -208,7 +208,7 @@ usuarios          clientes
 |---|---|
 | Marcelo Alexandre | - |
 | Michael Douglas | [@michaeldouglasx](https://github.com/michaeldouglasx) |
-| Pedro Silva | - |
+| Pedro Silva | https://github.com/Pedro-Silva-Carvalho |
 | Suel Albuquerque | - |
 
 ---
