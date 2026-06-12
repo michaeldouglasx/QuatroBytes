@@ -28,16 +28,22 @@ public class Produto {
     @Column(nullable = false, name = "qtd_estoque")
     private Integer quantidadeEstoque;
 
+    @Column(nullable = false, name = "estoque_minimo")
+    private Integer estoqueMinimo;
+
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
 
 
+    protected Produto() {
+    }
 
-    public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, LocalDateTime dataRegistro) {
+    public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo, LocalDateTime dataRegistro) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
+        this.estoqueMinimo = estoqueMinimo;
         this.dataRegistro = dataRegistro;
     }
 

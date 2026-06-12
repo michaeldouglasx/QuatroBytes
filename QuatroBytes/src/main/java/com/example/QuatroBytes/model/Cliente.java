@@ -1,10 +1,6 @@
 package com.example.QuatroBytes.model;
 
-
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 
@@ -31,11 +27,14 @@ public class Cliente {
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
 
-    public Cliente( String nome, String cpf, String telefone, LocalDateTime dataRegistro, String endereco) {
+
+    protected Cliente() {
+    }
+
+    public Cliente(String nome, String cpf, String telefone, String endereco) {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.dataRegistro = dataRegistro;
         this.endereco = endereco;
     }
 
@@ -85,5 +84,10 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        this.dataRegistro = LocalDateTime.now();
     }
 }

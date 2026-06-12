@@ -37,7 +37,11 @@ public class Venda {
     @JoinColumn(name = "usuario_reponsavel_id")
     Usuario usuarioResponsavel;
 
-    public Venda( LocalDateTime dataVenda, Cliente cliente, List<ItemVenda> itensVenda, BigDecimal valorTotal, String status, Usuario usuarioResponsavel) {
+
+    protected Venda() {
+    }
+
+    public Venda(LocalDateTime dataVenda, Cliente cliente, List<ItemVenda> itensVenda, BigDecimal valorTotal, String status, Usuario usuarioResponsavel) {
 
         this.dataVenda = dataVenda;
         this.cliente = cliente;

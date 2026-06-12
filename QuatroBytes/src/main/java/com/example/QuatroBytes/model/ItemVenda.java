@@ -2,10 +2,10 @@ package com.example.QuatroBytes.model;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.math.BigDecimal;
+
 
 
 @Entity
@@ -18,6 +18,7 @@ public class ItemVenda {
     @ManyToOne
     @JoinColumn(name = "venda_id")
     private Venda venda;
+
 
     @ManyToOne
     @JoinColumn(name= "produto_id")
@@ -32,7 +33,11 @@ public class ItemVenda {
     @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
 
-    public ItemVenda( Venda venda, Produto produto, Integer quantidade, BigDecimal precoUnitario, BigDecimal subtotal) {
+
+    protected ItemVenda() {
+    }
+
+    public ItemVenda(Venda venda, Produto produto, Integer quantidade, BigDecimal precoUnitario, BigDecimal subtotal) {
 
         this.venda = venda;
         this.produto = produto;
@@ -88,4 +93,6 @@ public class ItemVenda {
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
+
+
 }

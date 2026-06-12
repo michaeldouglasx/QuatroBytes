@@ -23,6 +23,9 @@ public class Usuario {
     @Column(nullable = false)
     private Perfil perfil;
 
+    protected Usuario() {
+    }
+
     public Usuario(String username, Boolean ativo, String senhaHash, Perfil perfil) {
         this.username = username;
         this.ativo = ativo;
