@@ -23,9 +23,12 @@ public class ClienteService {
                 clienteRequestDTO.telefone(),
                 clienteRequestDTO.endereco()
         );
+
+
         Cliente clienteSalvo = clienteRepository.save(cliente);
 
-        ClienteResponseDTO responseDTO = new ClienteResponseDTO(
+        return new ClienteResponseDTO(
+                clienteSalvo.getId(),
                 clienteSalvo.getNome(),
                 clienteSalvo.getCpf(),
                 clienteSalvo.getTelefone(),
@@ -33,8 +36,29 @@ public class ClienteService {
                 clienteSalvo.getEndereco()
         );
 
-        return responseDTO;
     }
+    public ClienteResponseDTO editarCliente(Long id, ClienteRequestDTO clienteRequestDTO){
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow();
+
+        cliente.atualizar(clienteRequestDTO.nome(),
+                clienteRequestDTO.cpf(),
+                clienteRequestDTO.telefone(),
+                clienteRequestDTO.endereco());
+
+        Cliente clienteAtualizado = clienteRepository.save(cliente);
+
+        return new ClienteResponseDTO(clienteAtualizado.getId(),
+                clienteAtualizado.getNome(),
+                clienteAtualizado.getCpf(),
+                clienteAtualizado.getTelefone(),
+                clienteAtualizado.getDataRegistro(),
+                clienteAtualizado.getEndereco());
+
+
+
+    }
+
 
 
 
