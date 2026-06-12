@@ -1,12 +1,7 @@
 package com.example.QuatroBytes.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-
-@Getter
-@Setter
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -27,6 +22,13 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Perfil perfil;
+
+    public Usuario(String username, Boolean ativo, String senhaHash, Perfil perfil) {
+        this.username = username;
+        this.ativo = ativo;
+        this.senhaHash = senhaHash;
+        this.perfil = perfil;
+    }
 
     public Long getId() {
         return id;

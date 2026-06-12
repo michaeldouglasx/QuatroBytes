@@ -25,9 +25,19 @@ public class Cliente {
     @Column(nullable = true, length = 30, name= "telefone")
     private String telefone;
 
+    @Column(name = "endereco", nullable = true, length = 100)
+    private String endereco;
+
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
 
+    public Cliente( String nome, String cpf, String telefone, LocalDateTime dataRegistro, String endereco) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.dataRegistro = dataRegistro;
+        this.endereco = endereco;
+    }
 
     public LocalDateTime getDataRegistro() {
         return dataRegistro;
@@ -43,6 +53,14 @@ public class Cliente {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public void setTelefone(String telefone) {

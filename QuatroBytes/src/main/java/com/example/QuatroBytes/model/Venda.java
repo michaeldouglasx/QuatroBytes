@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "venda")
 public class Venda {
@@ -37,6 +36,16 @@ public class Venda {
     @ManyToOne
     @JoinColumn(name = "usuario_reponsavel_id")
     Usuario usuarioResponsavel;
+
+    public Venda( LocalDateTime dataVenda, Cliente cliente, List<ItemVenda> itensVenda, BigDecimal valorTotal, String status, Usuario usuarioResponsavel) {
+
+        this.dataVenda = dataVenda;
+        this.cliente = cliente;
+        this.itensVenda = itensVenda;
+        this.valorTotal = valorTotal;
+        this.status = status;
+        this.usuarioResponsavel = usuarioResponsavel;
+    }
 
     public Long getId() {
         return id;

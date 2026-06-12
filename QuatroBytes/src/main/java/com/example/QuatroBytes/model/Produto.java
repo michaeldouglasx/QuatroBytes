@@ -7,8 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "produto")
 public class Produto {
@@ -31,6 +30,16 @@ public class Produto {
 
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
+
+
+
+    public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, LocalDateTime dataRegistro) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.dataRegistro = dataRegistro;
+    }
 
     public Long getId() {
         return id;

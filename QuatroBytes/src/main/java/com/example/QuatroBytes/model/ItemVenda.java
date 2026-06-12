@@ -7,8 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "item_venda")
 public class ItemVenda {
@@ -32,6 +31,15 @@ public class ItemVenda {
 
     @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
+
+    public ItemVenda( Venda venda, Produto produto, Integer quantidade, BigDecimal precoUnitario, BigDecimal subtotal) {
+
+        this.venda = venda;
+        this.produto = produto;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+        this.subtotal = subtotal;
+    }
 
     public Long getId() {
         return id;
