@@ -6,6 +6,8 @@ import com.example.QuatroBytes.repository.dto.ClienteRequestDTO;
 import com.example.QuatroBytes.repository.dto.ClienteResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteService {
 
@@ -39,7 +41,7 @@ public class ClienteService {
     }
     public ClienteResponseDTO editarCliente(Long id, ClienteRequestDTO clienteRequestDTO){
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(()-> new RuntimeException("Cliente não encontrado!"));
 
         cliente.atualizar(clienteRequestDTO.nome(),
                 clienteRequestDTO.cpf(),
@@ -59,8 +61,26 @@ public class ClienteService {
 
     }
 
+    public void deletarCliente(Long id){
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Cliente não existe para ser excluído!"));
+            clienteRepository.delete(cliente);
 
 
+    }
+
+    public ClienteResponseDTO visualizaCliente(Long id){
+
+      Cliente cliente = clienteRepository.findById(id)
+               .orElseThrow(()-> new RuntimeException("Cliente não encontrado"));
+
+       return new ClienteResponseDTO(cliente.getId(),
+               cliente.getNome(),
+               cliente.getCpf(),
+               cliente.getTelefone(),
+               cliente.getDataRegistro(),
+               cliente.getEndereco());
+    }
 
 
 
