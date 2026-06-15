@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 @Service
 public class ClienteService {
@@ -110,7 +109,26 @@ public class ClienteService {
 
 
     }
+    private void cpfJaCadastrado (String cpf, Long id){
+        boolean cpfJaExiste;
 
+        if (id == null){
+            cpfJaExiste = clienteRepository.existsByCpf(cpf);
+        }
+        else {
+            cpfJaExiste = clienteRepository.existsByCpfAndIdNot(cpf, id);
+        }
+        if (cpfJaExiste){
+            throw new RuntimeException("CPF em uso no sistema!");
+        }
+
+
+
+    }
+    private void cpfJaCadastrado (String cpf) {
+        cpfJaCadastrado(cpf, null);
+
+    }
 
 
 }

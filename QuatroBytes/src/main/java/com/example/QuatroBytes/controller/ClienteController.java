@@ -26,6 +26,7 @@ public class ClienteController {
         return ResponseEntity.ok(listaClientes);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> buscarCliente(@PathVariable("id") Long id){
         ClienteResponseDTO cliente = clienteService.visualizaCliente(id);

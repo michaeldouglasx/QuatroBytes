@@ -1,8 +1,8 @@
 package com.example.QuatroBytes.repository.dto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
-
-public record ClienteRequestDTO( String nome, String cpf, String telefone, String endereco) {
+public record ClienteRequestDTO(@NotBlank String nome, @NotNull String cpf, String telefone, String endereco) {
 
 
 }
