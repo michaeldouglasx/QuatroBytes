@@ -18,6 +18,9 @@ public class Cliente {
     @Column(unique = true, nullable = false, name = "cpf")
     private String cpf;
 
+    @Column(unique = true, nullable = false, name = "email")
+    private String email;
+
     @Column(nullable = true, length = 30, name= "telefone")
     private String telefone;
 
@@ -31,9 +34,10 @@ public class Cliente {
     protected Cliente() {
     }
 
-    public Cliente(String nome, String cpf, String telefone, String endereco) {
+    public Cliente(String nome, String cpf, String email,  String telefone, String endereco) {
         this.nome = nome;
         this.cpf = cpf;
+        this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
     }
@@ -86,14 +90,23 @@ public class Cliente {
         this.nome = nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @PrePersist
     public void prePersist(){
         this.dataRegistro = LocalDateTime.now();
     }
 
-    public void atualizar(String nome, String cpf, String telefone, String endereco){
+    public void atualizar(String nome, String cpf,String email, String telefone, String endereco){
         this.nome = nome;
         this.cpf = cpf;
+        this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
     }

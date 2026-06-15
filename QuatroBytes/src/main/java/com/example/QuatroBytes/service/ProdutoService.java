@@ -20,5 +20,33 @@ public class ProdutoService {
          produtoRepository.delete(produto);
     }
 
+    public Produto editarProduto(Long id,Produto produto){
+        Produto buscaProduto = produtoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Produto não encontrado"));
+
+        buscaProduto.atualizarProduto(produto.getNome(),
+                produto.getDescricao(),
+                produto.getPreco(),
+                produto.getQuantidadeEstoque(),
+                produto.getEstoqueMinimo()
+        );
+        Produto produtoSalvo = produtoRepository.save(buscaProduto);
+
+        return produtoSalvo;
+
+    }
+    public Produto criarProduto (Produto produto) {
+        Produto novoProduto = new Produto(produto.getNome(),
+                produto.getDescricao(),
+                produto.getPreco(),
+                produto.getQuantidadeEstoque(),
+                produto.getEstoqueMinimo()
+        );
+         Produto produtoSalvo = produtoRepository.save(novoProduto);
+
+         return produtoSalvo;
+
+
+    }
 
 }

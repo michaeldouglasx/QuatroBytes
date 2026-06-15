@@ -25,9 +25,11 @@ public class ClienteService {
 
     public ClienteResponseDTO cadastrarCliente(ClienteRequestDTO clienteRequestDTO){
 
+        cpfJaCadastrado(clienteRequestDTO.cpf());
         Cliente cliente = new Cliente(
                 clienteRequestDTO.nome(),
                 clienteRequestDTO.cpf(),
+                clienteRequestDTO.email(),
                 clienteRequestDTO.telefone(),
                 clienteRequestDTO.endereco()
         );
@@ -39,6 +41,7 @@ public class ClienteService {
                 clienteSalvo.getId(),
                 clienteSalvo.getNome(),
                 clienteSalvo.getCpf(),
+                clienteSalvo.getEmail(),
                 clienteSalvo.getTelefone(),
                 clienteSalvo.getDataRegistro(),
                 clienteSalvo.getEndereco()
@@ -46,11 +49,14 @@ public class ClienteService {
 
     }
     public ClienteResponseDTO editarCliente(Long id, ClienteRequestDTO clienteRequestDTO){
+        cpfJaCadastrado(clienteRequestDTO.cpf(), id);
+
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Cliente não encontrado!"));
 
         cliente.atualizar(clienteRequestDTO.nome(),
                 clienteRequestDTO.cpf(),
+                clienteRequestDTO.email(),
                 clienteRequestDTO.telefone(),
                 clienteRequestDTO.endereco());
 
@@ -59,13 +65,12 @@ public class ClienteService {
         return new ClienteResponseDTO(clienteAtualizado.getId(),
                 clienteAtualizado.getNome(),
                 clienteAtualizado.getCpf(),
+                clienteAtualizado.getEmail(),
                 clienteAtualizado.getTelefone(),
                 clienteAtualizado.getDataRegistro(),
                 clienteAtualizado.getEndereco());
-
-
-
     }
+
 
     public void deletarCliente(Long id){
         Cliente cliente = clienteRepository.findById(id)
@@ -87,10 +92,12 @@ public class ClienteService {
        return new ClienteResponseDTO(cliente.getId(),
                cliente.getNome(),
                cliente.getCpf(),
+               cliente.getEmail(),
                cliente.getTelefone(),
                cliente.getDataRegistro(),
                cliente.getEndereco());
     }
+
 
     public List<ClienteResponseDTO> buscarClientes(){
 
@@ -101,14 +108,15 @@ public class ClienteService {
                         cliente.getId(),
                         cliente.getNome(),
                         cliente.getCpf(),
+                        cliente.getEmail(),
                         cliente.getTelefone(),
                         cliente.getDataRegistro(),
                         cliente.getEndereco()
                 ))
                         .toList();
-
-
     }
+
+
     private void cpfJaCadastrado (String cpf, Long id){
         boolean cpfJaExiste;
 
@@ -121,14 +129,16 @@ public class ClienteService {
         if (cpfJaExiste){
             throw new RuntimeException("CPF em uso no sistema!");
         }
-
-
-
     }
+
+
+
     private void cpfJaCadastrado (String cpf) {
         cpfJaCadastrado(cpf, null);
 
     }
+
+
 
 
 }

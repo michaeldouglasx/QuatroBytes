@@ -38,7 +38,7 @@ public class Produto {
     protected Produto() {
     }
 
-    public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo, LocalDateTime dataRegistro) {
+    public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
@@ -79,6 +79,14 @@ public class Produto {
         this.preco = preco;
     }
 
+    public Integer getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(Integer estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
+    }
+
     public Integer getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
@@ -94,4 +102,18 @@ public class Produto {
     public void setDataRegistro(LocalDateTime dataRegistro) {
         this.dataRegistro = dataRegistro;
     }
+    public void atualizarProduto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo){
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.estoqueMinimo = estoqueMinimo;
+
+    }
+
+    @PrePersist
+    public void prePersist(){
+        this.dataRegistro = LocalDateTime.now();
+    }
+
 }

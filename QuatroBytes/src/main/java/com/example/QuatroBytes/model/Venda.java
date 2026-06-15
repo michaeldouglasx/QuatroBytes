@@ -24,7 +24,7 @@ public class Venda {
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "Venda")
+    @OneToMany(mappedBy = "venda")
     private List<ItemVenda> itensVenda;
 
     @Column(name = "valor_total")
