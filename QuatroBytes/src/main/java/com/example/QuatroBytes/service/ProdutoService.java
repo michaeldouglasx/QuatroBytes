@@ -16,8 +16,8 @@ public class ProdutoService {
     public List<Produto> listarProdutos (){
         return produtoRepository.findAll();
     }
-    public void deletarProduto(Produto produto){
-         produtoRepository.delete(produto);
+    public void deletarProduto(Long id){
+         produtoRepository.deleteById(id);
     }
 
     public Produto editarProduto(Long id,Produto produto){

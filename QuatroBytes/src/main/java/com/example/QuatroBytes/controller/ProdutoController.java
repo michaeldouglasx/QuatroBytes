@@ -2,12 +2,11 @@ package com.example.QuatroBytes.controller;
 
 import com.example.QuatroBytes.model.Produto;
 import com.example.QuatroBytes.service.ProdutoService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,22 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(listaDeProdutos);
     }
 
+    @PostMapping
+    public ResponseEntity<Produto> cadastrarProdutos(@RequestBody Produto produto){
+        Produto produtoCriado = produtoService.criarProduto(produto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
+    }
+    @DeleteMapping("/{id]")
+    public ResponseEntity<Void> deletarProduto(@PathVariable Long id){
+        produtoService.deletarProduto(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/id")
+    public ResponseEntity<Produto>editarProduto(@PathVariable("id") Long id, @RequestBody Produto produto){
+        Produto produtoEditado = produtoService.editarProduto(id, produto);
+        return ResponseEntity.ok(produtoEditado);
+    }
 
 }
 
