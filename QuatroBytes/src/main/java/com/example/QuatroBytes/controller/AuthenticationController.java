@@ -3,7 +3,7 @@ package com.example.QuatroBytes.controller;
 
 import com.example.QuatroBytes.dto.auth.LoginRequestDTO;
 import com.example.QuatroBytes.dto.auth.RegisterDTO;
-import com.example.QuatroBytes.infra.security.PasswordEncoderConfig;
+
 import com.example.QuatroBytes.model.Usuario;
 import com.example.QuatroBytes.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -36,10 +36,11 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if (this.usuarioRepository.findByUsername(data.username())!= null){
+        System.out.println("entrouentro");
+
+        if (usuarioRepository.findByUsername(data.username()).isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-
         String passwordHash = new BCryptPasswordEncoder().encode(data.senha());
         Usuario user = new Usuario(data.username(), passwordHash, data.perfil());
         usuarioRepository.save(user);
