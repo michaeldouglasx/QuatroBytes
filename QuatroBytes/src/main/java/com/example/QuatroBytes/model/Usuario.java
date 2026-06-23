@@ -34,12 +34,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE__" + getPerfil()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + getPerfil()));
     }
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return this.senhaHash;
     }
 
     @Override
@@ -61,13 +61,17 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
     protected Usuario() {
     }
 
-    public Usuario(String username, Boolean ativo, String senhaHash, Perfil perfil) {
+    public Usuario(String username, String senhaHash, Perfil perfil) {
         this.username = username;
-        this.ativo = ativo;
+        this.ativo = true;
         this.senhaHash = senhaHash;
         this.perfil = perfil;
     }
@@ -80,9 +84,6 @@ public class Usuario implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
     public void setUsername(String username) {
         this.username = username;

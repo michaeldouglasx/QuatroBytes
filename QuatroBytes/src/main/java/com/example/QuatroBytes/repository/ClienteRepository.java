@@ -2,7 +2,6 @@ package com.example.QuatroBytes.repository;
 
 
 import com.example.QuatroBytes.model.Cliente;
-import com.example.QuatroBytes.repository.dto.ClienteRequestDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

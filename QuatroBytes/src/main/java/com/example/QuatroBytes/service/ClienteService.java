@@ -3,13 +3,11 @@ package com.example.QuatroBytes.service;
 import com.example.QuatroBytes.model.Cliente;
 import com.example.QuatroBytes.repository.ClienteRepository;
 import com.example.QuatroBytes.repository.VendaRepository;
-import com.example.QuatroBytes.repository.dto.ClienteRequestDTO;
-import com.example.QuatroBytes.repository.dto.ClienteResponseDTO;
-import org.apache.coyote.Response;
+import com.example.QuatroBytes.dto.cliente.ClienteRequestDTO;
+import com.example.QuatroBytes.dto.cliente.ClienteResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

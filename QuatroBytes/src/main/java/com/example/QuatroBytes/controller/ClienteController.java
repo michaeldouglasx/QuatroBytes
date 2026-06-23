@@ -1,6 +1,6 @@
 package com.example.QuatroBytes.controller;
-import com.example.QuatroBytes.repository.dto.ClienteRequestDTO;
-import com.example.QuatroBytes.repository.dto.ClienteResponseDTO;
+import com.example.QuatroBytes.dto.cliente.ClienteRequestDTO;
+import com.example.QuatroBytes.dto.cliente.ClienteResponseDTO;
 import com.example.QuatroBytes.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

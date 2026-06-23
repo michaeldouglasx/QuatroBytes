@@ -1,4 +1,4 @@
-package com.example.QuatroBytes.repository.dto;
+package com.example.QuatroBytes.dto.cliente;
 
 import java.time.LocalDateTime;
 
