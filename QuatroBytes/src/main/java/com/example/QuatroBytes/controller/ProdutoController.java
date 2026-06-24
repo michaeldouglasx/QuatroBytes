@@ -1,11 +1,12 @@
 package com.example.QuatroBytes.controller;
 
+import com.example.QuatroBytes.dto.produto.ProdutoRequestDTO;
+import com.example.QuatroBytes.dto.produto.ProdutoResponseDTO;
 import com.example.QuatroBytes.model.Produto;
 import com.example.QuatroBytes.service.ProdutoService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +20,22 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> listarProdutos(){
-        List<Produto> listaDeProdutos = produtoService.listarProdutos();
+    public ResponseEntity<List<ProdutoResponseDTO>> listarProdutos(){
+        List<ProdutoResponseDTO> listaDeProdutos = produtoService.listarProdutos();
         return ResponseEntity.status(HttpStatus.OK).body(listaDeProdutos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDTO> consultarProduto (@PathVariable("id") Long id){
+
+    }
+
     @PostMapping
-    public ResponseEntity<Produto> cadastrarProdutos(@RequestBody Produto produto){
-        Produto produtoCriado = produtoService.criarProduto(produto);
+    public ResponseEntity<ProdutoResponseDTO> cadastrarProdutos(@RequestBody ProdutoRequestDTO produto){
+        ProdutoResponseDTO produtoCriado = produtoService.criarProduto(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Long id){
         produtoService.deletarProduto(id);
@@ -36,8 +43,8 @@ public class ProdutoController {
     }
 
     @PutMapping("/id")
-    public ResponseEntity<Produto>editarProduto(@PathVariable("id") Long id, @RequestBody Produto produto){
-        Produto produtoEditado = produtoService.editarProduto(id, produto);
+    public ResponseEntity<ProdutoResponseDTO>editarProduto(@PathVariable("id") Long id, @RequestBody ProdutoRequestDTO produto){
+        ProdutoResponseDTO produtoEditado = produtoService.editarProduto(id, produto);
         return ResponseEntity.ok(produtoEditado);
     }
 

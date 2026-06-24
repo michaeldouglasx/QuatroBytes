@@ -129,14 +129,9 @@ public class ClienteService {
         }
     }
 
-
-
     private void cpfJaCadastrado (String cpf) {
         cpfJaCadastrado(cpf, null);
 
     }
-
-
-
 
 }
