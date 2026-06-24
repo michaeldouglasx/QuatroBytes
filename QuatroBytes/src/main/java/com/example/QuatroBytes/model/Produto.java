@@ -1,12 +1,8 @@
 package com.example.QuatroBytes.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "produto")
@@ -19,7 +15,7 @@ public class Produto {
     @Column(nullable = false, name = "nome",length = 100)
     private String nome;
 
-    @Column(nullable = true, name = "descricao",length = 255)
+    @Column(nullable = true, name = "descricao", length = 255)
     private String descricao;
 
     @Column(nullable = false, name = "preco")
@@ -34,26 +30,58 @@ public class Produto {
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
 
-
     protected Produto() {
     }
 
     public Produto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo) {
         this.nome = nome;
         this.descricao = descricao;
-        this.preco = preco;
-        this.quantidadeEstoque = quantidadeEstoque;
-        this.estoqueMinimo = estoqueMinimo;
-        this.dataRegistro = dataRegistro;
+        this.preco = validarPreco(preco);
+        this.quantidadeEstoque = validarQtdEstoque(quantidadeEstoque);
+        this.estoqueMinimo = validarEstoqueMinimo(estoqueMinimo);
     }
+
+    public void atualizarProduto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo){
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = validarPreco(preco);
+        this.quantidadeEstoque = validarQtdEstoque(quantidadeEstoque);
+        this.estoqueMinimo = validarEstoqueMinimo(estoqueMinimo);
+
+    }
+
+    private Integer validarEstoqueMinimo(Integer estoqueMinimo){
+        if (estoqueMinimo == null || estoqueMinimo<0 ){
+            throw new IllegalArgumentException("Valor inválido! O estoque mínimo não pode ser nulo ou menor que zero.");
+        }
+        return estoqueMinimo;
+    }
+
+    private BigDecimal validarPreco(BigDecimal preco){
+        if (preco == null || preco.compareTo(BigDecimal.ZERO) < 0 ){
+            throw new IllegalArgumentException("Valor inválido! Preço não pode ser menor que 0!");
+        }
+        return preco;
+    }
+    private Integer validarQtdEstoque(Integer qtd){
+        if (qtd == null || qtd < 0 ){
+            throw new IllegalArgumentException("Valor inválido! Estoque não pode ser nulo ou menor que zero.");
+        }
+        return qtd;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        this.dataRegistro = LocalDateTime.now();
+    }
+
+
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) {this.id = id;}
 
     public String getNome() {
         return nome;
@@ -71,12 +99,10 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public BigDecimal getPreco() {
-        return preco;
-    }
+    public BigDecimal getPreco() {return preco;}
 
     public void setPreco(BigDecimal preco) {
-        this.preco = preco;
+        this.preco = validarPreco(preco);
     }
 
     public Integer getEstoqueMinimo() {
@@ -84,7 +110,7 @@ public class Produto {
     }
 
     public void setEstoqueMinimo(Integer estoqueMinimo) {
-        this.estoqueMinimo = estoqueMinimo;
+        this.estoqueMinimo = validarEstoqueMinimo(estoqueMinimo);
     }
 
     public Integer getQuantidadeEstoque() {
@@ -92,28 +118,10 @@ public class Produto {
     }
 
     public void setQuantidadeEstoque(Integer quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
+        this.quantidadeEstoque = validarQtdEstoque(quantidadeEstoque);
     }
 
     public LocalDateTime getDataRegistro() {
         return dataRegistro;
     }
-
-    public void setDataRegistro(LocalDateTime dataRegistro) {
-        this.dataRegistro = dataRegistro;
-    }
-    public void atualizarProduto(String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo){
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.quantidadeEstoque = quantidadeEstoque;
-        this.estoqueMinimo = estoqueMinimo;
-
-    }
-
-    @PrePersist
-    public void prePersist(){
-        this.dataRegistro = LocalDateTime.now();
-    }
-
 }

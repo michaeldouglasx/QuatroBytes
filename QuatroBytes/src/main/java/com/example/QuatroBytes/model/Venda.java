@@ -1,9 +1,6 @@
 package com.example.QuatroBytes.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,10 +42,17 @@ public class Venda {
 
         this.dataVenda = dataVenda;
         this.cliente = cliente;
-        this.itensVenda = itensVenda;
+        this.itensVenda = validarItensVenda(itensVenda);
         this.valorTotal = valorTotal;
         this.status = status;
         this.usuarioResponsavel = usuarioResponsavel;
+    }
+
+    private List<ItemVenda>validarItensVenda(List<ItemVenda> lista){
+        if (lista == null || lista.isEmpty()){
+            throw new IllegalArgumentException("Não há itens na lista");
+        }
+        return lista;
     }
 
     public Long getId() {
@@ -80,7 +84,7 @@ public class Venda {
     }
 
     public void setItensVenda(List<ItemVenda> itensVenda) {
-        this.itensVenda = itensVenda;
+        this.itensVenda =  validarItensVenda(itensVenda);
     }
 
     public BigDecimal getValorTotal() {

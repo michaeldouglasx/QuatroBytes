@@ -2,9 +2,9 @@ package com.example.QuatroBytes.controller;
 
 import com.example.QuatroBytes.dto.produto.ProdutoRequestDTO;
 import com.example.QuatroBytes.dto.produto.ProdutoResponseDTO;
-import com.example.QuatroBytes.model.Produto;
 import com.example.QuatroBytes.service.ProdutoService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +27,12 @@ public class ProdutoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDTO> consultarProduto (@PathVariable("id") Long id){
-
+        ProdutoResponseDTO produto = produtoService.buscarProduto(id);
+        return ResponseEntity.ok().body(produto);
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoResponseDTO> cadastrarProdutos(@RequestBody ProdutoRequestDTO produto){
+    public ResponseEntity<ProdutoResponseDTO> cadastrarProdutos(@RequestBody @Valid ProdutoRequestDTO produto){
         ProdutoResponseDTO produtoCriado = produtoService.criarProduto(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
     }
@@ -43,7 +44,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/id")
-    public ResponseEntity<ProdutoResponseDTO>editarProduto(@PathVariable("id") Long id, @RequestBody ProdutoRequestDTO produto){
+    public ResponseEntity<ProdutoResponseDTO>editarProduto(@PathVariable("id") Long id, @RequestBody @Valid ProdutoRequestDTO produto){
         ProdutoResponseDTO produtoEditado = produtoService.editarProduto(id, produto);
         return ResponseEntity.ok(produtoEditado);
     }
