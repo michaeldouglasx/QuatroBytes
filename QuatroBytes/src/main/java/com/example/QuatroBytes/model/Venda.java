@@ -28,24 +28,29 @@ public class Venda {
     private BigDecimal valorTotal;
 
     @Column(name = "status")
-    String status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "usuario_reponsavel_id")
-    Usuario usuarioResponsavel;
+    private Usuario usuarioResponsavel;
 
 
     protected Venda() {
     }
 
-    public Venda(LocalDateTime dataVenda, Cliente cliente, List<ItemVenda> itensVenda, BigDecimal valorTotal, String status, Usuario usuarioResponsavel) {
+    public Venda(Cliente cliente, List<ItemVenda> itensVenda, String status, Usuario usuarioResponsavel) {
 
-        this.dataVenda = dataVenda;
         this.cliente = cliente;
         this.itensVenda = validarItensVenda(itensVenda);
-        this.valorTotal = valorTotal;
         this.status = status;
         this.usuarioResponsavel = usuarioResponsavel;
+        calcularValorTotal();
+
+    }
+
+    private void calcularValorTotal(){
+        this.valorTotal = this.itensVenda.stream().map(item -> item.getSubtotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add );
     }
 
     private List<ItemVenda>validarItensVenda(List<ItemVenda> lista){
@@ -85,6 +90,7 @@ public class Venda {
 
     public void setItensVenda(List<ItemVenda> itensVenda) {
         this.itensVenda =  validarItensVenda(itensVenda);
+        calcularValorTotal();
     }
 
     public BigDecimal getValorTotal() {
@@ -109,5 +115,9 @@ public class Venda {
 
     public void setUsuarioResponsavel(Usuario usuarioResponsavel) {
         this.usuarioResponsavel = usuarioResponsavel;
+    }
+    @PrePersist
+    public void prePresist(){
+        this.dataVenda = LocalDateTime.now();
     }
 }

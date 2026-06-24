@@ -30,7 +30,6 @@ public class Cliente {
     @Column(nullable = false, name = "data_registro")
     private LocalDateTime dataRegistro;
 
-
     protected Cliente() {
     }
 
