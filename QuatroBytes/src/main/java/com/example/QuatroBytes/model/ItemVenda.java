@@ -46,6 +46,7 @@ public class ItemVenda {
         this.subtotal = subtotal;
     }
 
+
     public Long getId() {
         return id;
     }

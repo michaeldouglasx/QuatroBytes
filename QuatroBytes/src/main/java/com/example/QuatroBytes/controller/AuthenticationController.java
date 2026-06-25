@@ -6,6 +6,8 @@ import com.example.QuatroBytes.dto.auth.RegisterDTO;
 
 import com.example.QuatroBytes.model.Usuario;
 import com.example.QuatroBytes.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/auth")
 @RestController
+@Tag(name = "Autenticação", description = "Controle de Autenticação")
 public class AuthenticationController {
     UsuarioRepository usuarioRepository;
     AuthenticationManager authenticationManager;
@@ -27,25 +30,13 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
     }
 
+
+    @Operation(summary = "Autenticar usuário")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid LoginRequestDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        System.out.println("entrouentro");
-
-        if (usuarioRepository.findByUsername(data.username()).isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-        String passwordHash = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario user = new Usuario(data.username(), passwordHash, data.perfil());
-        usuarioRepository.save(user);
-        return ResponseEntity.ok().build();
-
     }
 
 

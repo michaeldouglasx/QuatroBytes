@@ -5,14 +5,12 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +28,14 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Perfil perfil;
-
+    protected Usuario() {
+    }
+    public Usuario(String username, String senhaHash, Perfil perfil) {
+        this.username = username;
+        this.ativo = true;
+        this.senhaHash = senhaHash;
+        this.perfil = perfil;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,16 +69,6 @@ public class Usuario implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    protected Usuario() {
-    }
-
-    public Usuario(String username, String senhaHash, Perfil perfil) {
-        this.username = username;
-        this.ativo = true;
-        this.senhaHash = senhaHash;
-        this.perfil = perfil;
     }
 
     public Long getId() {
