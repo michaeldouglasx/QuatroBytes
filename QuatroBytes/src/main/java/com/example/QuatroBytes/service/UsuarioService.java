@@ -1,6 +1,7 @@
 package com.example.QuatroBytes.service;
 
 import com.example.QuatroBytes.dto.auth.RegisterDTO;
+import com.example.QuatroBytes.dto.senha.AlterarSenhaDTO;
 import com.example.QuatroBytes.dto.usuario.UsuarioRequestDTO;
 import com.example.QuatroBytes.dto.usuario.UsuarioResponseDTO;
 import com.example.QuatroBytes.model.Perfil;
@@ -53,8 +54,27 @@ public class UsuarioService implements UserDetailsService {
 
     }
 
-    public UsuarioResponseDTO alterarSenha(long id, UsuarioRequestDTO usuariodto){
+    public void alterarSenha(long id, AlterarSenhaDTO senhaDTO){
 
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Usuário não encontrado!"));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(!encoder.matches(senhaDTO.senhaAtual(), usuario.getSenhaHash())){
+            throw new IllegalArgumentException("A senha atual está incorreta!");
+        }
+        String novaSenhaCriptografada = encoder.encode(senhaDTO.novaSenha());
+        usuario.setSenhaHash(novaSenhaCriptografada);
+        usuarioRepository.save(usuario);
+    }
+
+
+    public UsuarioResponseDTO ativarUsuario(Long id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Usuário não encontrado!"));
+        usuario.setAtivo(true);
+        usuarioRepository.save(usuario);
+        return new UsuarioResponseDTO(usuario.getUsername(), usuario.getAtivo(), usuario.getPerfil());
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.QuatroBytes.controller;
 import com.example.QuatroBytes.dto.auth.RegisterDTO;
+import com.example.QuatroBytes.dto.senha.AlterarSenhaDTO;
 import com.example.QuatroBytes.dto.usuario.UsuarioRequestDTO;
 import com.example.QuatroBytes.dto.usuario.UsuarioResponseDTO;
 import com.example.QuatroBytes.repository.UsuarioRepository;
@@ -39,10 +40,17 @@ public class UsuarioController {
     }
 
     @Operation(summary = "Alterar senha")
-    @PutMapping("/{id}/alterar-senha")
-    public ResponseEntity<UsuarioResponseDTO> alterarSenha(@PathVariable("id") Long id, @RequestBody UsuarioRequestDTO usuarioRequestDTO){
-        usuarioService.alterarSenha(id, usuarioRequestDTO);
+    @PatchMapping("/{id}/alterar-senha")
+    public ResponseEntity<Void> alterarSenha(@PathVariable("id") Long id, @RequestBody AlterarSenhaDTO alterarSenhaDTO){
+        usuarioService.alterarSenha(id, alterarSenhaDTO);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Ativar usuário")
+    @PatchMapping("/{id}/ativar")
+    public ResponseEntity<UsuarioResponseDTO> ativarUsuario(@PathVariable("id") Long id){
+        UsuarioResponseDTO usuarioAtivo = usuarioService.ativarUsuario(id);
+       return ResponseEntity.ok().body(usuarioAtivo);
     }
 
 
