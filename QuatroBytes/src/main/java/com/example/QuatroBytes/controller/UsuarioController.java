@@ -32,6 +32,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
     @Operation(summary = "Desativar Usuário")
     @PatchMapping("/{id}/desativar")
     public ResponseEntity<Void> desativarUsuário(@PathVariable("id") Long id){

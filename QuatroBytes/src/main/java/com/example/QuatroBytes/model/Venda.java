@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
 @Table(name = "venda")
 public class Venda {
@@ -14,14 +13,15 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name= "data_venda")
+    @Column(name = "data_venda")
     private LocalDateTime dataVenda;
 
     @ManyToOne
-    @JoinColumn(name="cliente_id")
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "venda")
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemVenda> itensVenda;
 
     @Column(name = "valor_total")
@@ -35,27 +35,31 @@ public class Venda {
     @JoinColumn(name = "usuario_reponsavel_id")
     private Usuario usuarioResponsavel;
 
-
     protected Venda() {
     }
 
     public Venda(Cliente cliente, List<ItemVenda> itensVenda, Status status, Usuario usuarioResponsavel) {
-
         this.cliente = cliente;
-        this.itensVenda = validarItensVenda(itensVenda);
         this.status = status;
         this.usuarioResponsavel = usuarioResponsavel;
+
+
+        this.itensVenda = validarItensVenda(itensVenda);
+        for (ItemVenda item : this.itensVenda) {
+            item.setVenda(this);
+        }
+
         calcularValorTotal();
-
     }
 
-    private void calcularValorTotal(){
-        this.valorTotal = this.itensVenda.stream().map(item -> item.getSubtotal())
-                .reduce(BigDecimal.ZERO, BigDecimal::add );
+    private void calcularValorTotal() {
+        this.valorTotal = this.itensVenda.stream()
+                .map(ItemVenda::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private List<ItemVenda>validarItensVenda(List<ItemVenda> lista){
-        if (lista == null || lista.isEmpty()){
+    private List<ItemVenda> validarItensVenda(List<ItemVenda> lista) {
+        if (lista == null || lista.isEmpty()) {
             throw new IllegalArgumentException("Não há itens na lista");
         }
         return lista;
@@ -90,7 +94,11 @@ public class Venda {
     }
 
     public void setItensVenda(List<ItemVenda> itensVenda) {
-        this.itensVenda =  validarItensVenda(itensVenda);
+        this.itensVenda = validarItensVenda(itensVenda);
+
+        for (ItemVenda item : this.itensVenda) {
+            item.setVenda(this);
+        }
         calcularValorTotal();
     }
 
@@ -117,8 +125,9 @@ public class Venda {
     public void setUsuarioResponsavel(Usuario usuarioResponsavel) {
         this.usuarioResponsavel = usuarioResponsavel;
     }
+
     @PrePersist
-    public void prePresist(){
+    public void prePersist() {
         this.dataVenda = LocalDateTime.now();
     }
 }

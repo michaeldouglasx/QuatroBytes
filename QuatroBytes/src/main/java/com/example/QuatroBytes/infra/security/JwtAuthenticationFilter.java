@@ -27,14 +27,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    var token = this.recoverToken(request);
-    if (token != null){
-     var login = jwtService.validateToken(token);
-        Optional<Usuario> user = usuarioRepository.findByUsername(login);
-        var authentication = new UsernamePasswordAuthenticationToken(user, null, user.get().getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-    filterChain.doFilter(request,response);
+        var token = this.recoverToken(request);
+
+        if (token != null) {
+            var login = jwtService.validateToken(token);
+            if (login != null && !login.isEmpty()) {
+                Optional<Usuario> userOptional = usuarioRepository.findByUsername(login);
+
+                if (userOptional.isPresent()) {
+                    Usuario user = userOptional.get();
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+        }
+        filterChain.doFilter(request, response);
     }
     private String recoverToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");

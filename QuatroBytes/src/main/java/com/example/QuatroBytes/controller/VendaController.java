@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/vendas")
 @Tag(name = "Vendas", description = "Gerenciamento de Vendas")
@@ -33,6 +35,12 @@ public class VendaController {
     ResponseEntity<VendaResponseDTO>cancelarVenda(@PathVariable("id") Long id){
         VendaResponseDTO vendaCancelada = vendaService.cancelarVenda(id);
         return ResponseEntity.ok(vendaCancelada);
+    }
+    @Operation(summary = "Listar Vendas")
+    @GetMapping
+    public ResponseEntity<List<VendaResponseDTO>> listarTodasAsVendas() {
+        List<VendaResponseDTO> vendas = vendaService.listarVendas();
+        return ResponseEntity.ok(vendas);
     }
 
 
