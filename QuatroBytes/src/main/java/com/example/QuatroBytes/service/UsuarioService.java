@@ -2,7 +2,6 @@ package com.example.QuatroBytes.service;
 
 import com.example.QuatroBytes.dto.auth.RegisterDTO;
 import com.example.QuatroBytes.dto.senha.AlterarSenhaDTO;
-import com.example.QuatroBytes.dto.usuario.UsuarioRequestDTO;
 import com.example.QuatroBytes.dto.usuario.UsuarioResponseDTO;
 import com.example.QuatroBytes.model.Perfil;
 import com.example.QuatroBytes.model.Usuario;
@@ -76,6 +75,9 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(usuario);
         return new UsuarioResponseDTO(usuario.getUsername(), usuario.getAtivo(), usuario.getPerfil());
     }
+
+
+
 
 
 }

@@ -54,7 +54,7 @@ public class VendaService {
             itens.add(novoItem);
 
         }
-        Venda novaVenda = new Venda(cliente,itens,"CONFIRMADA", usuario);
+        Venda novaVenda = new Venda(cliente,itens,Status.CONFIRMADA, usuario);
 
         for(ItemVenda itemVenda : itens){
             itemVenda.setVenda(novaVenda);
@@ -84,6 +84,28 @@ public class VendaService {
         );
 
     }
+
+    @Transactional
+    public VendaResponseDTO cancelarVenda(Long id){
+        Venda venda = vendaRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Venda não existe com ID:" + id));
+        if (venda.getStatus() == Status.CANCELADA){
+            throw new IllegalArgumentException("Essa venda já foi cancelada anteriormente");
+        }
+        venda.setStatus(Status.CANCELADA);
+
+        for (ItemVenda item : venda.getItensVenda()){
+
+            Produto produto = item.getProduto();
+            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque()+item.getQuantidade());
+        }
+
+        Venda vendaAtualizada = vendaRepository.save(venda);
+        return converterParaResponseDTO(vendaAtualizada);
+
+    }
+
+
 
 
 

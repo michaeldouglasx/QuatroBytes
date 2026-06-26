@@ -27,8 +27,9 @@ public class Venda {
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "usuario_reponsavel_id")
@@ -38,7 +39,7 @@ public class Venda {
     protected Venda() {
     }
 
-    public Venda(Cliente cliente, List<ItemVenda> itensVenda, String status, Usuario usuarioResponsavel) {
+    public Venda(Cliente cliente, List<ItemVenda> itensVenda, Status status, Usuario usuarioResponsavel) {
 
         this.cliente = cliente;
         this.itensVenda = validarItensVenda(itensVenda);
@@ -101,11 +102,11 @@ public class Venda {
         this.valorTotal = valorTotal;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
