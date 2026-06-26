@@ -1,221 +1,146 @@
-# 🛍️ Qu4troBytes - E-commerce de Camisetas Exclusivas
+# QuatroBytes — Backend para Gestão Comercial e Controle de Vendas
 
-> Sistema de e-commerce para venda e gestão de camisetas exclusivas, desenvolvido com Java + Spring Boot + MySQL.
-
----
-
-## 🚀 Tecnologias Utilizadas
-
-| Tecnologia | Versão | Função |
-|---|---|---|
-| Java | 21+ | Linguagem principal |
-| Spring Boot | 3+ | Framework backend |
-| Spring Data JPA | - | Integração com banco de dados (ORM) |
-| Hibernate | - | Implementação JPA |
-| MySQL | 8+ | Banco de dados relacional |
-| Maven | - | Gerenciador de dependências |
-| BCrypt | - | Criptografia de senhas |
+API REST desenvolvida em **Java 25** com **Spring Boot 4.0.6** para gestão de clientes, produtos e vendas, com autenticação via JWT e controle de acesso por perfil.
 
 ---
 
-## 📋 Funcionalidades
+## Tecnologias
 
-- ✅ Cadastro, edição e exclusão de **Clientes** (com validação de CPF e e-mail)
-- ✅ Cadastro e controle de **Produtos** (camisetas) com estoque mínimo
-- ✅ Registro de **Vendas** com cálculo automático de valor total
-- ✅ Atualização automática de **Estoque** após cada venda
-- ✅ **Autenticação** de usuários com senha criptografada (BCrypt)
-- ✅ Controle de **perfis de acesso**: ADMIN, VENDEDOR, ESTOQUISTA
-- ✅ **Cancelamento de venda** com restauração de estoque
-
----
-
-## 🏗️ Arquitetura em Camadas
-
-O projeto segue a arquitetura em camadas (Layered Architecture):
-
-```
-Requisição HTTP
-      ↓
-[ CONTROLLER ]   → Recebe a requisição e chama o Service
-      ↓
-[ SERVICE ]      → Contém as regras de negócio
-      ↓
-[ REPOSITORY ]   → Acessa o banco de dados via JPA
-      ↓
-[ DATABASE ]     → MySQL (tabelas: clientes, produtos, vendas, itens_venda, usuarios)
-```
+| Tecnologia | Versão |
+|---|---|
+| Java | 25 |
+| Spring Boot | 4.0.6 |
+| Spring Security | 4.0.6 |
+| Spring Data JPA | 4.0.6 |
+| MySQL | 8.4.0 |
+| Auth0 java-jwt | 4.5.2 |
+| SpringDoc OpenAPI (Swagger) | 2.8.9 |
+| Maven | — |
 
 ---
 
-## 📁 Estrutura de Pastas
+## Pré-requisitos
 
-```
-src/main/java/com/qu4trobytes/
-├── QuatrobytesApplication.java   ← ponto de entrada Spring Boot
-├── controller/                   ← Endpoints REST (HTTP)
-│   ├── ClienteController.java
-│   ├── ProdutoController.java
-│   ├── VendaController.java
-│   └── UsuarioController.java
-├── service/                      ← Regras de negócio
-│   ├── ClienteService.java
-│   ├── ProdutoService.java
-│   ├── VendaService.java
-│   └── UsuarioService.java
-├── model/                        ← Entidades JPA (mapeadas no banco)
-│   ├── Cliente.java
-│   ├── Produto.java
-│   ├── Venda.java
-│   ├── ItemVenda.java
-│   └── Usuario.java
-├── repository/                   ← Interfaces JPA (acesso ao banco)
-│   ├── ClienteRepository.java
-│   ├── ProdutoRepository.java
-│   ├── VendaRepository.java
-│   └── UsuarioRepository.java
-└── dto/                          ← Objetos de transferência de dados
-    ├── ClienteRequestDTO.java
-    └── ClienteResponseDTO.java
-
-src/main/resources/
-└── application.properties        ← Configuração do banco de dados
-```
+- Java 25+
+- MySQL 8+
+- Maven 3.9+
 
 ---
 
-## ⚙️ Como Executar o Projeto
+## Configuração
 
-### Pré-requisitos
+Crie o banco de dados no MySQL:
 
-- Java 21 ou superior instalado
-- MySQL 8 instalado e rodando
-- Maven instalado
-
-### Passo a Passo
-
-**1. Clone o repositório:**
-```bash
-git clone https://github.com/michaeldouglasx/QuatroBytes.git
-cd QuatroBytes
-```
-
-**2. Crie o banco de dados no MySQL:**
 ```sql
-CREATE DATABASE IF NOT EXISTS qu4trobytes_ecommerce;
+CREATE DATABASE quatrobytes;
 ```
 
-**3. Configure o arquivo `application.properties`:**
+Configure o `src/main/resources/application.properties`:
+
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/qu4trobytes_ecommerce
+spring.application.name=QuatroBytes
+server.port=8081
+
+# JWT — defina via variável de ambiente JWT_SECRET em produção
+api.quatrobytes.security.token.secret=${JWT_SECRET:my-secret-key}
+
+# Banco de dados
+spring.datasource.url=jdbc:mysql://localhost:3306/quatrobytes
 spring.datasource.username=root
-spring.datasource.password=SUA_SENHA_AQUI
+spring.datasource.password=sua_senha
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-```
-
-**4. Execute o projeto:**
-```bash
-mvn spring-boot:run
-```
-
-**5. A API estará disponível em:**
-```
-http://localhost:8080/api
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 ---
 
-## 🌐 Endpoints da API
+## Como executar
+
+```bash
+# Clonar o repositório
+git clone https://github.com/seu-usuario/quatrobytes.git
+cd quatrobytes/QuatroBytes
+
+# Executar
+./mvnw spring-boot:run
+```
+
+A API estará disponível em `http://localhost:8081`.
+
+---
+
+## Usuário administrador padrão
+
+Na primeira execução, o sistema cria automaticamente um ADMIN padrão:
+
+| Campo | Valor |
+|---|---|
+| Login | `admin` |
+| Senha | `123456` |
+
+> **Importante:** crie um novo ADMIN via `POST /api/usuarios` e desative o padrão via `PATCH /api/usuarios/{id}/desativar` antes de ir para produção.
+
+---
+
+## Endpoints
+
+### Autenticação
+
+| Método | Endpoint | Acesso |
+|---|---|---|
+| POST | `/auth/login` | Público |
 
 ### Clientes
-| Método | Endpoint | Descrição |
+
+| Método | Endpoint | Acesso |
 |---|---|---|
-| GET | `/api/clientes` | Lista todos os clientes |
-| GET | `/api/clientes/{id}` | Busca cliente por ID |
-| POST | `/api/clientes` | Cadastra novo cliente |
-| PUT | `/api/clientes/{id}` | Atualiza dados do cliente |
-| DELETE | `/api/clientes/{id}` | Remove cliente |
+| GET | `/api/clientes` | Autenticado |
+| GET | `/api/clientes/{id}` | Autenticado |
+| POST | `/api/clientes` | Autenticado |
+| PUT | `/api/clientes/{id}` | Autenticado |
+| DELETE | `/api/clientes/{id}` | Autenticado |
 
 ### Produtos
-| Método | Endpoint | Descrição |
+
+| Método | Endpoint | Acesso |
 |---|---|---|
-| GET | `/api/produtos` | Lista todos os produtos |
-| GET | `/api/produtos/{id}` | Busca produto por ID |
-| POST | `/api/produtos` | Cadastra novo produto |
-| PUT | `/api/produtos/{id}` | Atualiza produto |
-| DELETE | `/api/produtos/{id}` | Remove produto |
+| GET | `/api/produtos` | ADMIN, VENDEDOR, ESTOQUISTA |
+| GET | `/api/produtos/{id}` | ADMIN, VENDEDOR, ESTOQUISTA |
+| POST | `/api/produtos` | ADMIN, ESTOQUISTA |
+| PUT | `/api/produtos/{id}` | ADMIN, ESTOQUISTA |
+| DELETE | `/api/produtos/{id}` | ADMIN, ESTOQUISTA |
 
 ### Vendas
-| Método | Endpoint | Descrição |
+
+| Método | Endpoint | Acesso |
 |---|---|---|
-| GET | `/api/vendas` | Lista todas as vendas |
-| GET | `/api/vendas/{id}` | Busca venda por ID |
-| POST | `/api/vendas` | Registra nova venda |
-| PUT | `/api/vendas/{id}/cancelar` | Cancela uma venda |
+| POST | `/api/vendas` | ADMIN, VENDEDOR |
+| PATCH | `/api/vendas/{id}` | ADMIN, VENDEDOR (cancela a venda) |
+
+### Usuários
+
+| Método | Endpoint | Acesso |
+|---|---|---|
+| POST | `/api/usuarios` | ADMIN |
+| PATCH | `/api/usuarios/{id}/ativar` | ADMIN |
+| PATCH | `/api/usuarios/{id}/desativar` | ADMIN |
+| PATCH | `/api/usuarios/{id}/alterar-senha` | ADMIN |
 
 ---
 
-## 🗄️ Banco de Dados — Modelo Lógico
+## Perfis de acesso
 
-```
-usuarios          clientes
-+---------+       +---------+
-| id (PK) |       | id (PK) |
-| username|       | nome    |
-| senha   |       | cpf     |
-| perfil  |       | email   |
-| ativo   |       | telefone|
-+---------+       +---------+
-     |1                 |1
-     |                  |
-     | registra         | possui
-     |N                 |N
-     +------+  +--------+
-            |  |
-         +----------+
-         | vendas   |
-         +----------+
-         | id (PK)  |
-         | cliente_id (FK) |
-         | usuario_id (FK) |
-         | data_venda      |
-         | valor_total     |
-         | status          |
-         +----------+
-               |1
-               | contém
-               |N
-  +----------------+    +----------+
-  | itens_venda    |    | produtos |
-  +----------------+    +----------+
-  | id (PK)        |    | id (PK)  |
-  | venda_id (FK)  |    | nome     |
-  | produto_id (FK)|----| preco    |
-  | quantidade     | N:1| estoque  |
-  | preco_unitario |    +----------+
-  | subtotal       |
-  +----------------+
-```
+| Perfil | Permissões |
+|---|---|
+| `ADMIN` | Acesso total |
+| `VENDEDOR` | Clientes e Vendas |
+| `ESTOQUISTA` | Produtos (leitura e escrita) e Clientes |
 
 ---
 
-## 👥 Equipe de Desenvolvimento
+## Documentação interativa (Swagger)
 
-| Nome | GitHub |
-|------|--------|
-| Marcelo Alexandre | [MarceloMarcks](https://github.com/MarceloMarcks) |
-| Michael Douglas | [@michaeldouglasx](https://github.com/michaeldouglasx) |
-| Pedro Silva | [Pedro-Silva-Carvalho](https://github.com/Pedro-Silva-Carvalho) |
-| Suel Albuquerque | [@suel777](https://github.com/suel777) |
----
-
-## 📚 Documentação
-
-A documentação completa de arquitetura e modelagem (requisitos, casos de uso, diagrama de classes, diagrama do banco, código de implementação) está disponível na pasta `/docs` do repositório.
-
----
-
-*Projeto desenvolvido para a disciplina de Java - SENAC DF*
+Com a aplicação em execução, acesse:
