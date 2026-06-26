@@ -144,3 +144,38 @@ Na primeira execução, o sistema cria automaticamente um ADMIN padrão:
 ## Documentação interativa (Swagger)
 
 Com a aplicação em execução, acesse:
+
+```
+http://localhost:8081/swagger-ui/index.html
+```
+
+---
+
+## Estrutura do projeto
+
+```
+src/main/java/com/example/QuatroBytes/
+├── controller/       # Endpoints REST
+├── service/          # Regras de negócio
+├── repository/       # Acesso ao banco (JpaRepository)
+├── model/            # Entidades JPA e Enums (Perfil, Status)
+├── dto/              # Java Records de entrada e saída
+│   ├── auth/
+│   ├── cliente/
+│   ├── produto/
+│   ├── venda/
+│   ├── ItemVenda/
+│   ├── usuario/
+│   └── senha/
+└── infra/
+    ├── security/     # JWT, filtro de autenticação, SecurityConfig
+    └── seeder/       # AdminSeeder (cria ADMIN padrão na inicialização)
+```
+
+---
+
+## Segurança
+
+- Senhas criptografadas com **BCrypt** (strength 12)
+- Autenticação **stateless** via **JWT** com expiração de 2 horas
+- Secret configurável via variável de ambiente `JWT_SECRET`
