@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Autenticação", description = "Controle de Autenticação")
 public class AuthenticationController {
-    UsuarioRepository usuarioRepository;
-    AuthenticationManager authenticationManager;
+    private final UsuarioRepository usuarioRepository;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationController(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager) {
         this.usuarioRepository = usuarioRepository;

@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -33,9 +33,10 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios").hasAuthority("ADMIN")
                         .requestMatchers("/api/usuarios/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/vendas/**").hasAnyAuthority("ADMIN", "VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/api/produtos/**").hasAnyAuthority("ADMIN", "ESTOQUISTA", "VENDEDOR")
                         .requestMatchers("/api/produtos/**").hasAnyAuthority("ADMIN", "ESTOQUISTA")
                         .anyRequest().authenticated()
                 )
@@ -52,9 +53,9 @@ public class SecurityConfig {
 
 
     }
-    @Bean
-    public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/h2-console/**");
+
+
     }
 
-}
+
+
